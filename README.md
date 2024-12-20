@@ -1,21 +1,21 @@
 
 # Power Spectral Density and Smoothing Analysis
 
-This package provides tools for analyzing time-series data using spectral methods, including Fourier and wavelet transforms. It includes functionality for smoothing data, estimating the power spectral density (PSD) for 3D signals, and other utilities for handling spectral data.
+This package provides tools for analyzing time-series data using spectral methods such as Fourier and wavelet transforms. It includes functionality for smoothing data, estimating the power spectral density (PSD) for 3D signals, and handling edge effects like the Cone of Influence (CoI) in wavelet analysis.
 
 ## Features
 
 - **Data Smoothing**:
   - `smooth`: A wrapper function for logarithmic smoothing of data based on FFT frequency distributions.
-  - `smoothing_function`: Core function for performing logarithmic window smoothing.
+  - `smoothing_function`: Core function for performing logarithmic window smoothing, optimized with `numba`.
 
 - **Power Spectral Density Estimation**:
   - `TracePSD`: Computes the PSD using the Fourier transform for 3D signals.
-  - `trace_PSD_wavelet`: Estimates the PSD using the Continuous Wavelet Transform (CWT) with optional Cone of Influence (CoI) consideration.
+  - `trace_PSD_wavelet`: Estimates the PSD using the Continuous Wavelet Transform (CWT), with optional consideration of the Cone of Influence (CoI).
 
 ## Installation
 
-Install this package by cloning the repository and using `pip`:
+Clone this repository and install the dependencies using `pip`:
 
 ```bash
 git clone https://github.com/your-repo/SWTurbPy.git
@@ -27,7 +27,7 @@ pip install .
 
 - `numpy`: For numerical operations and FFT computations.
 - `pycwt`: For wavelet analysis.
-- `numba`: For optimizing performance of computationally intensive functions.
+- `numba`: For optimizing computationally intensive functions.
 
 ## Usage
 
@@ -35,7 +35,7 @@ pip install .
 
 ```python
 import numpy as np
-from SWTurbPy.SWTurbPy import smooth
+from SWTurbPy import smooth
 
 # Example data
 x = np.fft.rfftfreq(1000, d=0.01)
@@ -48,7 +48,7 @@ xoutmean, yout = smooth(x, y, pad=10)
 ### 2. PSD Estimation with FFT
 
 ```python
-from SWTurbPy.SWTurbPy import TracePSD
+from SWTurbPy import TracePSD
 
 # Example data
 x = np.sin(np.linspace(0, 10, 1000))
@@ -62,7 +62,7 @@ freqs, B_pow = TracePSD(x, y, z, dt, norm='forward')
 ### 3. PSD Estimation with Wavelet Transform
 
 ```python
-from SWTurbPy.SWTurbPy import trace_PSD_wavelet
+from SWTurbPy import trace_PSD_wavelet
 
 # Example data
 x = np.sin(np.linspace(0, 10, 1000))
@@ -77,14 +77,15 @@ db_x, db_y, db_z, freqs, PSD, scales, coi = trace_PSD_wavelet(x, y, z, dt, dj, c
 
 ## Function Descriptions
 
-### `smooth(x, y, pad)`
+### `smooth(x, y, pad, window=2)`
 
-**Description**: A wrapper for smoothing data based on logarithmic spacing of indices. Assumes `x` is the output of `numpy.fft.rfftfreq`.
+**Description**: Smooths data using logarithmically spaced intervals. Useful for data with logarithmic frequency distributions.
 
 **Parameters**:
-- `x` (numpy.ndarray): FFT frequency array.
-- `y` (numpy.ndarray): Data to smooth.
+- `x` (numpy.ndarray): Input x-values (e.g., FFT frequencies).
+- `y` (numpy.ndarray): Input y-values to smooth.
 - `pad` (int): Controls the density of smoothing intervals.
+- `window` (int, optional): Size of the smoothing window in logarithmic space.
 
 **Returns**:
 - `xoutmean` (numpy.ndarray): Smoothed x-values.
@@ -94,12 +95,12 @@ db_x, db_y, db_z, freqs, PSD, scales, coi = trace_PSD_wavelet(x, y, z, dt, dj, c
 
 ### `TracePSD(x, y, z, dt, norm=None)`
 
-**Description**: Estimate the PSD using the Fourier transform for a 3-component signal.
+**Description**: Estimates the PSD for 3D signals using the Fourier transform.
 
 **Parameters**:
-- `x, y, z` (numpy.ndarray): Time series data for each component.
+- `x, y, z` (numpy.ndarray): Time series components of the signal.
 - `dt` (float): Sampling time.
-- `norm` (str, optional): Normalization method for FFT. Options are `{'forward', 'backward', 'ortho'}`.
+- `norm` (str, optional): FFT normalization mode (`"forward"`, `"ortho"`, or `"backward"`).
 
 **Returns**:
 - `freqs` (numpy.ndarray): Frequencies of the PSD.
@@ -109,24 +110,24 @@ db_x, db_y, db_z, freqs, PSD, scales, coi = trace_PSD_wavelet(x, y, z, dt, dj, c
 
 ### `trace_PSD_wavelet(x, y, z, dt, dj, consider_coi=True)`
 
-**Description**: Estimate the PSD using wavelet transform for a 3-component signal.
+**Description**: Estimates the PSD using wavelet analysis for 3D signals, with optional handling of edge effects via the Cone of Influence (CoI).
 
 **Parameters**:
-- `x, y, z` (numpy.ndarray): Time series data for each component.
+- `x, y, z` (array-like): Components of the signal.
 - `dt` (float): Sampling time.
 - `dj` (float): Scale resolution.
-- `consider_coi` (bool, optional): Whether to exclude regions in the Cone of Influence (CoI).
+- `consider_coi` (bool, optional): Whether to consider CoI in PSD estimation.
 
 **Returns**:
-- `db_x, db_y, db_z` (numpy.ndarray): Wavelet coefficients for each component.
-- `freqs` (numpy.ndarray): Frequencies of the PSD.
-- `PSD` (numpy.ndarray): Power spectral density.
-- `scales` (numpy.ndarray): Scales used for the wavelet transform.
-- `coi` (numpy.ndarray): Cone of Influence (CoI).
+- `db_x, db_y, db_z` (array-like): Wavelet coefficients for each component.
+- `freqs` (array-like): Frequencies of the PSD.
+- `PSD` (array-like): Power spectral density.
+- `scales` (array-like): Wavelet scales.
+- `coi` (array-like): Cone of Influence.
 
-## Example Plots
+## Example Visualization
 
-You can visualize the smoothed data or PSD using libraries like `matplotlib`.
+Visualize the results using `matplotlib`:
 
 ```python
 import matplotlib.pyplot as plt
