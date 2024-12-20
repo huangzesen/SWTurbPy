@@ -32,7 +32,7 @@ pip install SWTurbPy
 
 ```python
 import numpy as np
-from your_package_name import smooth
+from SWTurbPy.SWTurbPy import smooth
 
 # Example data
 x = np.fft.rfftfreq(1000, d=0.01)
@@ -45,7 +45,7 @@ xoutmean, yout = smooth(x, y, pad=10)
 ### 2. PSD Estimation with FFT
 
 ```python
-from your_package_name import TracePSD
+from SWTurbPy.SWTurbPy import TracePSD
 
 # Example data
 x = np.sin(np.linspace(0, 10, 1000))
@@ -59,7 +59,7 @@ freqs, B_pow = TracePSD(x, y, z, dt, norm='forward')
 ### 3. PSD Estimation with Wavelet Transform
 
 ```python
-from your_package_name import trace_PSD_wavelet
+from SWTurbPy.SWTurbPy import trace_PSD_wavelet
 
 # Example data
 x = np.sin(np.linspace(0, 10, 1000))

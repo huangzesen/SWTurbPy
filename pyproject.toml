@@ -4,13 +4,13 @@ build-backend = "hatchling.build"
 
 [project]
 name = "SWTurbPy"
-version = "0.0.3"
+version = "0.0.4"
 authors = [
   { name="Zesen Huang", email="huangzs1997@gmail.com" },
 ]
 description = "Basic Utilities for Solar Wind Turbulence"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.10,<3.13"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
