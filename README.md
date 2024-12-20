@@ -17,9 +17,7 @@ This package provides tools for analyzing time series data using spectral method
 Clone this repository to your local machine and install the required dependencies:
 
 ```bash
-git clone <repository_url>
-cd <repository_name>
-pip install -r requirements.txt
+pip install SWTurbPy
 ```
 
 ## Dependencies
