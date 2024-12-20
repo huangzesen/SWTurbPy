@@ -1,34 +1,37 @@
+
 # Power Spectral Density and Smoothing Analysis
 
-This package provides tools for analyzing time series data using spectral methods, including Fourier and wavelet transforms. It includes functionality for smoothing data, estimating the power spectral density (PSD) using both FFT and wavelet methods, and other utility functions for handling spectral data.
+This package provides tools for analyzing time-series data using spectral methods, including Fourier and wavelet transforms. It includes functionality for smoothing data, estimating the power spectral density (PSD) for 3D signals, and other utilities for handling spectral data.
 
 ## Features
 
 - **Data Smoothing**:
-  - `smooth`: Logarithmic smoothing of data, using indices generated based on the FFT frequency distribution.
-  - `smoothing_function`: Core function for smoothing with a logarithmic window size.
+  - `smooth`: A wrapper function for logarithmic smoothing of data based on FFT frequency distributions.
+  - `smoothing_function`: Core function for performing logarithmic window smoothing.
 
 - **Power Spectral Density Estimation**:
-  - `TracePSD`: PSD estimation using the Fourier transform for a 3-component signal.
-  - `trace_PSD_wavelet`: PSD estimation using the Continuous Wavelet Transform (CWT), with optional Cone of Influence (CoI) consideration.
+  - `TracePSD`: Computes the PSD using the Fourier transform for 3D signals.
+  - `trace_PSD_wavelet`: Estimates the PSD using the Continuous Wavelet Transform (CWT) with optional Cone of Influence (CoI) consideration.
 
 ## Installation
 
-Clone this repository to your local machine and install the required dependencies:
+Install this package by cloning the repository and using `pip`:
 
 ```bash
-pip install SWTurbPy
+git clone https://github.com/your-repo/SWTurbPy.git
+cd SWTurbPy
+pip install .
 ```
 
 ## Dependencies
 
-- `numpy`: For numerical operations and FFT.
+- `numpy`: For numerical operations and FFT computations.
 - `pycwt`: For wavelet analysis.
-- `numba`: For JIT-compiled performance optimization of smoothing functions.
+- `numba`: For optimizing performance of computationally intensive functions.
 
 ## Usage
 
-### 1. Smoothing Data
+### 1. Logarithmic Data Smoothing
 
 ```python
 import numpy as np
@@ -152,4 +155,3 @@ Contributions are welcome! Please submit issues or pull requests to improve the 
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-
